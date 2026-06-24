@@ -18,6 +18,7 @@
       color: var(--dark);
       background: var(--white);
       line-height: 1.6;
+      overflow-x: hidden;
     }
 
     /* ── NAV ─────────────────────────────────────────── */
@@ -896,7 +897,9 @@
     .hours-row {
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 0.1rem 1rem;
       padding: 0.6rem 0;
       border-bottom: 1px solid var(--light);
       font-size: 0.9rem;
@@ -904,8 +907,8 @@
 
     .hours-row:last-child { border-bottom: none; }
 
-    .hours-row .day { color: #374151; font-weight: 500; }
-    .hours-row .time { color: var(--gray); }
+    .hours-row .day { color: #374151; font-weight: 600; flex-shrink: 0; }
+    .hours-row .time { color: var(--gray); text-align: right; margin-left: auto; }
     .hours-row .closed { color: #ef4444; font-weight: 500; }
 
     .hours-note {
@@ -967,30 +970,45 @@
     .footer-links a { font-size: 0.82rem; }
 
     /* ── RESPONSIVE ──────────────────────────────────── */
-    @media (max-width: 768px) {
-      nav { padding: 0 1rem; }
+    /* Nav collapses to a hamburger earlier than the content grids — the
+       links + phone + button crowd the bar well before the 768px layout break. */
+    @media (max-width: 900px) {
+      nav { padding: 0 1.25rem; }
       .nav-toggle { display: flex; }
       .nav-phone { display: none; }
       .nav-links-call { display: block; }
+      .nav-right { margin-left: auto; }
 
       .nav-links {
         display: flex;
         flex-direction: column;
-        align-items: flex-start;
-        gap: 1.25rem;
+        align-items: stretch;
+        gap: 0;
         position: absolute;
         top: 70px; left: 0; right: 0;
         background: var(--white);
         border-bottom: 1px solid rgba(0,0,0,.08);
-        box-shadow: 0 14px 26px rgba(0,0,0,.07);
-        padding: 1.5rem;
-        transform: translateY(-130%);
+        box-shadow: 0 14px 26px rgba(0,0,0,.08);
+        padding: 0.5rem 1.25rem 1rem;
+        transform: translateY(-135%);
         opacity: 0;
         visibility: hidden;
-        transition: transform .28s ease, opacity .28s ease, visibility .28s;
+        transition: transform .3s ease, opacity .3s ease, visibility .3s;
       }
 
-      .nav-links a { font-size: 1rem; }
+      .nav-links li { width: 100%; }
+
+      .nav-links a {
+        display: block;
+        width: 100%;
+        font-size: 1.05rem;
+        padding: 0.85rem 0.25rem;
+        border-bottom: 1px solid rgba(0,0,0,.05);
+      }
+
+      .nav-links li:last-child a { border-bottom: none; }
+
+      .nav-links-call a { color: var(--teal); font-weight: 700; }
 
       nav.open .nav-links {
         transform: translateY(0);
@@ -998,13 +1016,25 @@
         visibility: visible;
       }
 
+      /* Hours + booking stack here so the hours card gets full width and
+         the time strings never collide with the day labels. */
+      .contact-secondary { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 768px) {
+      nav { padding: 0 1rem; }
+
       .hero-inner { grid-template-columns: 1fr; gap: 2.5rem; }
       .hero { padding: 3rem 1.25rem; }
 
       .hero-card-wrap { justify-content: stretch; }
       .hero-card { max-width: 100%; }
 
-      .trust-bar-inner { justify-content: flex-start; gap: 1rem; }
+      .trust-bar-inner {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.25rem 1rem;
+      }
       .trust-divider { display: none; }
 
       .about-grid { grid-template-columns: 1fr; }
@@ -1016,6 +1046,29 @@
       .services-grid, .reviews-grid, .why-grid {
         grid-template-columns: 1fr;
       }
+    }
+
+    /* ── SMALL PHONES ────────────────────────────────── */
+    @media (max-width: 480px) {
+      /* Keep the top bar from crowding: drop the tagline, shrink the CTA */
+      nav { gap: 0.5rem; }
+      .nav-brand-text span { display: none; }
+      .nav-logo-circle { width: 38px; height: 38px; }
+      .nav-brand-text strong { font-size: 0.95rem; }
+      .nav-right .btn-primary { padding: 0.55rem 1.1rem; font-size: 0.82rem; }
+      .nav-book { white-space: nowrap; }
+      .nav-book-word { display: none; }   /* show just "Book" on small phones */
+
+      .trust-bar-inner { grid-template-columns: 1fr; }
+
+      /* Stack each hours row: day on top, time beneath — no more collisions */
+      .hours-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.15rem;
+        padding: 0.7rem 0;
+      }
+      .hours-row .time { text-align: left; margin-left: 0; font-size: 0.88rem; }
     }
 
     /* ── ANIMATIONS ──────────────────────────────────── */
