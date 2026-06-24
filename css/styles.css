@@ -633,7 +633,8 @@
     .map-wrap {
       display: block;
       position: relative;
-      margin-top: 3rem;
+      height: 100%;
+      min-height: 340px;
       border-radius: 16px;
       overflow: hidden;
       border: 1px solid rgba(0,0,0,.06);
@@ -642,7 +643,7 @@
       text-decoration: none;
     }
 
-    .map-wrap iframe { display: block; width: 100%; }
+    .map-wrap iframe { display: block; width: 100%; height: 100%; min-height: 340px; }
 
     .map-overlay {
       position: absolute;
@@ -813,7 +814,22 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 3rem;
-      align-items: start;
+      align-items: stretch;
+    }
+
+    .contact-secondary {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: stretch;
+      margin-top: 3rem;
+    }
+
+    .contact-secondary .book-cta-box {
+      margin-top: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
 
     .contact-info h3 {
@@ -993,6 +1009,7 @@
 
       .about-grid { grid-template-columns: 1fr; }
       .contact-grid { grid-template-columns: 1fr; }
+      .contact-secondary { grid-template-columns: 1fr; margin-top: 1.5rem; }
 
       section { padding: 3.5rem 1.25rem; }
 
