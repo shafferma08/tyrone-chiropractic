@@ -1,0 +1,43 @@
+name: Deploy site to GitHub Pages
+
+on:
+  # Deploy whenever files change on the main branch
+  push:
+    branches: [main]
+  # ...and allow a manual run from the Actions tab
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Only ever run ONE deployment at a time. If a new one starts while an old
+# one is stuck in the queue, cancel the stuck one instead of piling up.
+# This is what stops the "deployment_queued" zombies from blocking everything.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      # Upload the whole site as-is (plain HTML/CSS — no Jekyll build)
+      - name: Upload site
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
