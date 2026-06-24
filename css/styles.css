@@ -626,6 +626,43 @@
       color: rgba(26,61,92,.55);
     }
 
+    /* Real office photo: drop the dashed placeholder border */
+    img.about-photo { border: none; }
+
+    /* ── MAP ──────────────────────────────────────────── */
+    .map-wrap {
+      display: block;
+      position: relative;
+      margin-top: 3rem;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(0,0,0,.06);
+      box-shadow: 0 2px 12px rgba(0,0,0,.05);
+      line-height: 0;
+      text-decoration: none;
+    }
+
+    .map-wrap iframe { display: block; width: 100%; }
+
+    .map-overlay {
+      position: absolute;
+      bottom: 1rem; right: 1rem;
+      background: var(--teal);
+      color: var(--white);
+      font-size: 0.85rem;
+      font-weight: 600;
+      line-height: 1;
+      padding: 0.65rem 1.2rem;
+      border-radius: 50px;
+      box-shadow: 0 4px 14px rgba(42,157,143,.35);
+      transition: background .2s, transform .2s;
+    }
+
+    .map-wrap:hover .map-overlay {
+      background: #248a7c;
+      transform: translateY(-1px);
+    }
+
     .doc-header-text strong {
       display: block;
       font-size: 1rem;
